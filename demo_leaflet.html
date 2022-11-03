@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo LeafLet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+     integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+     crossorigin=""/>
+
+     <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+     integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+     crossorigin=""></script>
+
+     <style type="text/css">
+        #map  {
+            width: 900px;
+            height: 700px;
+        }
+     </style>
+</head>
+<body>
+    <h1>Hello Leaflet</h1>
+
+    <div id="map"></div>
+
+    <script>
+        const initial_coords = [47.66850178081039, -122.10038880046581]
+        // L hace referencia a Leaflet
+        const map = L.map('map').setView(initial_coords, 18)
+
+        // formato del mapa, máximo zoom
+        const titles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        var marker = L.marker(initial_coords).addTo(map)
+
+        var circle = L.circle(initial_coords, {
+            color: "red",
+            fillColor: "red",
+            fillOpacity: 0.4,
+            radius: 50
+        }).addTo(map)
+
+        var polygon = L.polygon([
+            [47.6685, -122.1003],
+            [47.67, -122.1003],
+            [47.6600, -122.102],
+            [47.6685, -122.12],
+            [47.6685, -122.1003]
+        ]).addTo(map)
+
+        //Popups
+        marker.bindPopup("<p>Hello Marker</p>").addTo(map)
+        circle.bindPopup("<p>Hello Circle</p>").addTo(map)
+        polygon.bindPopup("<p>Hello Polygon</p>").addTo(map)
+
+        //También se pude desplegar un popup sin necesidad de que el usuario le de click primero
+        /*
+        var popup = L.popup()
+            .setLatLng(initial_coords)
+            .setContent("Hello Custom Popup")
+            .openOn(map)
+        */
+        //Este es una ventana emergente de una alert de javascript
+        function onMapClick(e) {
+            alert("Clicked on" + e.latlng)
+            console.log(e);
+        }
+        map.on('click', onMapClick)
+
+        //Popup on click with lat long
+        var popup = L.popup()
+        function onMapClick(e){
+            popup 
+                .setLatLng(e.latlng)
+                .setContent("Clicked " + e.latlng)
+                .openOn(map)
+        }
+    </script>
+
+</body>
+</html>
